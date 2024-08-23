@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const compression = require("compression");
 const apiRoutes = require("./routes/api");
+const rateLimiter = require("./middlewares/rate.limiter.middleware");
 
 const path = require("path");
 const cors = require("cors");
@@ -39,6 +40,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(compression());
+ 
+//================================================
+// Rate limiting global middleware
+//================================================
+app.use(rateLimiter);
 
 //define routes
 app.use("/api/v1", apiRoutes);
